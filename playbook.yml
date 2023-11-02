@@ -1,0 +1,4 @@
+- hosts: tamrieltower
+  become: yes
+  roles:
+  - role: truenas_core

@@ -1,0 +1,5 @@
+# Pool name, files and allow sudo group are pre-created
+home_files_sharename: "homefiles"
+home_files_path: "/mnt/{{ pool_name }}/homefiles"
+rw_home_group_name: "builtin_users"
+allow_sudo_group_name: "allow_sudo"

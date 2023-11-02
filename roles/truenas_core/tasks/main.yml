@@ -1,0 +1,60 @@
+- name: Share homefiles
+  arensb.truenas.sharing_smb:
+    name: "{{ home_files_sharename }}"
+    path: "{{ home_files_path }}"
+    purpose: DEFAULT_SHARE
+    browsable: true
+    enabled: true
+
+- name: Create home user
+  arensb.truenas.user:
+    name: home
+    group: "{{ rw_home_group_name }}"
+    create_group: false
+    home: "/nonexistent"
+    password: "{{ home_pwd }}"
+
+# Need to create specific plex group and user for plex to work
+- name: Create plex group
+  arensb.truenas.group:
+    name: plex
+    gid: 972
+
+- name: Create plex user
+  arensb.truenas.user:
+    name: plex
+    comment: plex
+    uid: 972
+    create_group: false
+    home: "/nonexistent"
+    password_disabled: true
+
+- name: Set hostname
+  arensb.truenas.hostname:
+    name: tamrieltower
+
+- name: Enable SMB
+  service:
+    name: smbd
+    state: started
+    enabled: true
+
+- name: Daily snapshots
+  arensb.truenas.pool_snapshot_task:
+    match:
+      dataset: default
+      name_format: "snapshot-daily-"
+    dataset: default
+    lifetime_value: 30
+    lifetime_unit: days
+    name_format: "snapshot-daily-%Y-%m-%d_%H:%M"
+    recursive: yes
+    exclude:
+      - default/homefiles/media
+    minute: "0"
+    hour: "3"
+    day: "*"
+    month: "*"
+    weekday: "*"
+
+# Plugins didn't work very nicely
