@@ -24,7 +24,7 @@
   notify:
   - reload ufw
 
-- name: UFW allow openvpn port and protocol
+- name: UFW allow plex port and protocol
   ufw:
     rule: allow
     port: "32400"
