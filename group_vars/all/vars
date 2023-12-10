@@ -1,0 +1,4 @@
+pool: "/mnt/default"
+plex_group: "plex"
+plex_user: "plex"
+plex_id: 972

@@ -1,0 +1,60 @@
+- name: Ensure plex group
+  ansible.builtin.group:
+    name: "{{ plex_group }}"
+    gid: "{{ plex_id }}"
+    state: present
+
+- name: Ensure plex user
+  ansible.builtin.user:
+    name: "{{ plex_user }}"
+    state: present
+    uid: "{{ plex_id }}"
+    group: "{{ plex_group }}"
+    
+- name: Add Plex repo with gpg key
+  block:
+  - name: Download gpg key
+    ansible.builtin.shell:
+      cmd: "curl {{ plex_gpg_url }} | gpg --dearmor | sudo tee {{ plex_gpg_file }} > /dev/null"
+      creates: "{{ plex_gpg_file }}"
+
+  - name: Download repository
+    ansible.builtin.apt_repository:
+      repo: "deb [arch=amd64 signed-by={{ plex_gpg_file }}] {{ plex_apt_repo }}"
+      state: present
+
+  - name: Install packages
+    ansible.builtin.apt:
+      name:
+      - plexmediaserver
+      - cifs-utils
+      update_cache: true
+      state: present
+
+- name: Create mount directory
+  ansible.builtin.file:
+    path: "{{ mount_folder }}"
+    state: directory
+
+- name: Create smb credentials
+  ansible.builtin.template:
+    src: "smbcredentials.j2"
+    dest: "{{ smbcredentials_file_path }}"
+    owner: root
+    group: root
+    mode: '0400'
+
+- name: Mount smb media share
+  ansible.posix.mount:
+    src: "//{{ truenas_host }}/{{ mount_share }}"
+    path: "{{ mount_folder }}"
+    opts: "credentials={{ smbcredentials_file_path }},vers=3.0,iocharset=utf8,uid={{ plex_id }},gid={{ plex_id }},noperm"
+    boot: true
+    state: mounted
+    fstype: cifs
+
+- name: Autostart Plex
+  ansible.builtin.service:
+    name: plexmediaserver
+    enabled: true
+  notify: restart plex

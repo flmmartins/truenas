@@ -1,4 +1,9 @@
 - hosts: tamrieltower
-  become: yes
+  become: true
   roles:
   - role: truenas_core
+
+- hosts: plex
+  become: true
+  roles:
+  - role: plex

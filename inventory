@@ -1,5 +1,5 @@
-[test]
-192.168.65.2  ansible_user=ansible
-
 [tamrieltower]
-192.168.2.100 ansible_user=ansible
+192.168.2.100 ansible_user=fernanda
+
+[plex]
+192.168.2.101 ansible_user=plexvm

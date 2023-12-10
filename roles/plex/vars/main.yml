@@ -1,0 +1,7 @@
+plex_gpg_url: "https://downloads.plex.tv/plex-keys/PlexSign.key"
+plex_gpg_file: "/usr/share/keyrings/plexserver.gpg"
+plex_apt_repo: "https://downloads.plex.tv/repo/deb public main"
+mount_folder: "/mnt/media"
+mount_share: "media"
+truenas_host: "192.168.2.100"
+smbcredentials_file_path: "/root/.smbcredentials"

@@ -1,0 +1,13 @@
+- name: security
+  ansible.builtin.include_tasks:
+    file: security.yml
+    apply:
+      tags:
+        - security
+
+- name: plex
+  ansible.builtin.include_tasks:
+    file: plex.yml
+    apply:
+      tags:
+        - plex
