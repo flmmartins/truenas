@@ -60,8 +60,6 @@
     lifetime_unit: days
     name_format: "snapshot-daily-%Y-%m-%d_%H:%M"
     recursive: true
-    exclude:
-      - default/media
     minute: "0"
     hour: "5"
     day: "*"
