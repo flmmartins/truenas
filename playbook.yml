@@ -2,8 +2,3 @@
   become: true
   roles:
   - role: truenas_core
-
-- hosts: plex
-  become: true
-  roles:
-  - role: plex

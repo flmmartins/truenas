@@ -1,1 +1,2 @@
-smb_shares: ["homefiles", "media"]
+pool: "/mnt/default"
+smb_shares: ["homefiles"]

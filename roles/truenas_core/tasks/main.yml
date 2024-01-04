@@ -10,15 +10,6 @@
   - smb_sharing
   - sharing
 
-- name: "Enable SMB service"
-  arensb.truenas.service:
-    name: smbd
-    state: started
-    enabled: true
-  tags: 
-  - smb_sharing
-  - sharing
-
 - name: "Create home user"
   arensb.truenas.user:
     name: home
@@ -28,23 +19,6 @@
     password: "{{ home_pwd }}"
   tags: users
   # TODO: enable SMB auth afterwards
-
-# Need to create specific plex group and user for plex to work
-- name: "Create plex group"
-  arensb.truenas.group:
-    name: "{{ plex_group }}"
-    gid: "{{ plex_id }}"
-  tags: users
-
-- name: "Create plex user"
-  arensb.truenas.user:
-    name: "{{ plex_user }}"
-    uid: "{{ plex_id }}"
-    create_group: false
-    home: "/nonexistent"
-    password: "{{ plex_pwd }}"
-  # TODO: enable SMB auth afterwards
-  tags: users
 
 - name: "Set hostname"
   arensb.truenas.hostname:
